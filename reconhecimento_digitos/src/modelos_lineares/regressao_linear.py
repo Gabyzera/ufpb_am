@@ -27,7 +27,9 @@ class RegressaoLinear():
     def prever(self, X):
         y_previsao = np.dot(X, self.pesos) + self.vies
         
-        return y_previsao
+        y_classificado = np.where(y_previsao > 0, 1, -1)
+        
+        return y_classificado
     
     
     def erro_medio_quadratico(y, previsoes):
