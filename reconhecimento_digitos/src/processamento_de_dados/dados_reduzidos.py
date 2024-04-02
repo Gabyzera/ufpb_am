@@ -2,21 +2,10 @@ import numpy as np
 import pandas as pd
 
 def calcular_intensidade_e_simetria(row):
-    # Começa na segunda coluna da linha convertendo os valores para array e remodela para o formato 28x28
     pixelx = row[1:].values.reshape(28, 28)
 
-    # Soma todos os valores da linha e depois divide por 255 
     intensidade = pixelx.sum() / 255
-
-    # Calcula a soma dos valores absolutos das diferenças entre cada pixel e seu correspondente do lado oposto 
-    # verticalmente.
-    # Isso é feito pegando todas as linhas (':') e as primeiras metades das colunas (':14'), 
-    # e subtraindo isso do espelhamento horizontal das mesmas linhas e metades das colunas.
-    # O espelhamento é feito com '[:, ::-1]' que inverte a ordem das colunas e '[:, :14]' pega a metade espelhada.
     simetria_vertical = np.sum(np.abs(pixelx[:, :14] - pixelx[:, ::-1][:, :14])) / 255
-    # É semelhante ao cálculo da simetria vertical, pegamos metades das linhas com '[:14, :]' e espelhamos 
-    # no eixo horizontal com '[::-1, :]', depois pegamos a metade superior das linhas espelhadas com '[:14, :]' 
-    # para fazer a subtração.
     simetria_horizontal = np.sum(np.abs(pixelx[:14, :] - pixelx[::-1, :][:14, :])) / 255
     simetria_completa = simetria_vertical + simetria_horizontal
 

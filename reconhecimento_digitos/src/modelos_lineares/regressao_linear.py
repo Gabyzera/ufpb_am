@@ -1,5 +1,4 @@
 import numpy as np
-from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 def erro_medio_quadratico(y, previsoes):
@@ -18,14 +17,14 @@ class RegressaoLinear():
         self.vies = 0.0
         self.pesos = np.zeros(n_caracteristicas)
         
-        for _ in tqdm(range(self.n_iteracoes)):
+        for _ in range(self.n_iteracoes):
             y_previsao = np.dot(X, self.pesos) + self.vies
             
             derivada_vies = (2/n_amostras) * np.sum(y_previsao - y)
             derivada_peso = (2/n_amostras) * np.dot(X.T, (y_previsao - y))
             
-            self.vies = self.vies - self.taxa_aprendizado * derivada_vies
-            self.pesos = self.pesos - self.taxa_aprendizado * derivada_peso
+            self.vies -= self.taxa_aprendizado * derivada_vies
+            self.pesos -= self.taxa_aprendizado * derivada_peso
         
 
     def prever(self, X):

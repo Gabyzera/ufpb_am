@@ -1,5 +1,4 @@
 import numpy as np
-from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 class Perceptron():
@@ -11,7 +10,7 @@ class Perceptron():
         self.weight = np.zeros(1 + X.shape[1])
         self.total_erros = []  
         
-        for _ in tqdm(range(self.n_iteracoes)):
+        for _ in range(self.n_iteracoes):
             erros_cada_amosta = 0
             
             for xi, target in zip(X, y):

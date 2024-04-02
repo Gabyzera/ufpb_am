@@ -1,19 +1,17 @@
 import numpy as np
-from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 def sigmoid(x):
     return 1.0 / (1.0 + np.exp(-x))
 
-def acuracia(y_previsao, y_teste):
-    return np.mean(y_previsao == y_teste)
-
 class RegressaoLogistica():
-    def __init__(self, taxa_aprendizado = 0.001, n_iteracoes = 1000):
+    def __init__(self, taxa_aprendizado = 0.001, n_iteracoes = 1000, lambda_decaimento_peso = 0.01):
         self.vies = None
         self.pesos = None
         self.n_iteracoes = n_iteracoes
         self.taxa_aprendizado = taxa_aprendizado
+        # Weight decay 
+        self.lambda_decaimento_peso = lambda_decaimento_peso
 
     def ajuste(self, X, y):
         n_amostras, n_caracteristicas = X.shape
@@ -21,15 +19,18 @@ class RegressaoLogistica():
         self.vies = 0.0
         self.pesos = np.zeros(n_caracteristicas)
         
-        for _ in tqdm(range(self.n_iteracoes)):
+        for _ in range(self.n_iteracoes):
             previsao_linear = np.dot(X, self.pesos) + self.vies
             y_previsao = sigmoid(previsao_linear)
             
             derivada_vies = (1/n_amostras) * np.sum(y_previsao - y)
-            derivada_peso = (1/n_amostras) * np.dot(X.T, (y_previsao - y))
+            # Derivada de peso levando em consideração o weight decay
+            derivada_peso = (1/n_amostras) * np.dot(X.T, (y_previsao - y)) + (
+                                self.lambda_decaimento_peso / n_amostras
+                            ) * self.pesos 
             
-            self.vies = self.vies - self.taxa_aprendizado * derivada_vies
-            self.pesos = self.pesos - self.taxa_aprendizado * derivada_peso
+            self.vies -= self.taxa_aprendizado * derivada_vies
+            self.pesos -= self.taxa_aprendizado * derivada_peso
     
     def prever(self, X):
         previsao_linear = np.dot(X, self.pesos) + self.vies
