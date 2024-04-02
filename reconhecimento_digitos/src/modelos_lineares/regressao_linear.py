@@ -1,5 +1,9 @@
 import numpy as np
+from tqdm import tqdm
 import matplotlib.pyplot as plt
+
+def erro_medio_quadratico(y, previsoes):
+    return np.mean(pow(y - previsoes), 2)
 
 class RegressaoLinear():
     def __init__(self, taxa_aprendizado = 0.001, n_iteracoes = 1000):
@@ -14,7 +18,7 @@ class RegressaoLinear():
         self.vies = 0.0
         self.pesos = np.zeros(n_caracteristicas)
         
-        for _ in range(self.n_iteracoes):
+        for _ in tqdm(range(self.n_iteracoes)):
             y_previsao = np.dot(X, self.pesos) + self.vies
             
             derivada_vies = (2/n_amostras) * np.sum(y_previsao - y)
@@ -32,15 +36,12 @@ class RegressaoLinear():
         return y_classificado
     
     
-    def erro_medio_quadratico(y, previsoes):
-        return np.mean(pow(y - previsoes), 2)
-    
-    def plotagem_regressao_linear(self, X, y):
+    def plotar(self, X, y, resolucao = 0.5):
         X1 = X[y == 1]
         X2 = X[y == -1]
         
-        xmin = np.min(X[:, 0]) - 0.5
-        xmax = np.max(X[:, 0]) + 0.5
+        xmin = np.min(X[:, 0]) - resolucao
+        xmax = np.max(X[:, 0]) + resolucao
 
         x = np.linspace(xmin, xmax, 100)
         pesos_intensidade, pesos_simetria = self.pesos
@@ -54,5 +55,5 @@ class RegressaoLinear():
         plt.plot(x, y_linha, label="Pesos", c='black', linewidth=2)
         plt.legend()
         plt.xlim(xmin, xmax)
-        plt.ylim(np.min(X[:, 0]) - 0.5, np.max(X[:, 0]) + 0.5)       
+        plt.ylim(np.min(X[:, 0]) - resolucao, np.max(X[:, 0]) + resolucao)       
         plt.show()
