@@ -1,1 +1,0 @@
-nomes_modelos = ("Perceptron", "Regressao_linear", "Regressao_logistica")

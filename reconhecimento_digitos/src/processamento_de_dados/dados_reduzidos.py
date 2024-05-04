@@ -11,7 +11,6 @@ def calcular_intensidade_e_simetria(row):
 
     return pd.Series({'intensidade': intensidade, 'simetria': simetria_completa})
 
-
 def dados_reduzidos():
     TEST_DATA_PATH = ('dados/test.csv')
     TRAIN_DATA_PATH = ('dados/train.csv')

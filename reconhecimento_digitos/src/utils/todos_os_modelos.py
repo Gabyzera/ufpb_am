@@ -1,0 +1,1 @@
+todos_os_modelos = ("Perceptron", "Regressao_linear", "Regressao_logistica")

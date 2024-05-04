@@ -10,7 +10,7 @@ class RegressaoLogistica():
         self.pesos = None
         self.n_iteracoes = n_iteracoes
         self.taxa_aprendizado = taxa_aprendizado
-        # Weight decay 
+        # Weight decay, ajuda a evitar overfitting
         self.lambda_decaimento_peso = lambda_decaimento_peso
 
     def ajuste(self, X, y):

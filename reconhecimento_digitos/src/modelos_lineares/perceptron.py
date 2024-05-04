@@ -18,7 +18,7 @@ class Perceptron():
 
                 self.weight[1:] += update * xi
                 self.weight[0] += update
- 
+
                 erros_cada_amosta += int(update != 0)
 
             self.total_erros.append(erros_cada_amosta)
@@ -28,6 +28,7 @@ class Perceptron():
         return np.where(self.net_input(X) >= 0, 1, -1)
     
     def net_input(self, X):
+        # w * x + b 
         return np.dot(X, self.weight[1:]) + self.weight[0]
     
     def plotar(self, X, y, resolution = 0.02):
@@ -48,8 +49,8 @@ class Perceptron():
                     label=f'{cl}', edgecolors='white')
 
         weights = self.weight
-        a = -weights[1] / weights[2] 
-        b = -weights[0] / weights[2] 
+        a = -weights[1] / weights[2] # inclinação da reta
+        b = -weights[0] / weights[2] # interceptro da linha
         decision_boundary = np.array([x1_min, x1_max])
 
         plt.plot(decision_boundary, a * decision_boundary + b, "k-", linewidth=2)
